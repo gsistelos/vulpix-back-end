@@ -12,6 +12,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
+import { hashPassword } from 'src/lib/hash';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UsersService } from './users.service';
@@ -22,6 +23,8 @@ export class UsersController {
 
   @Post()
   create(@Body() createUserDto: CreateUserDto) {
+    createUserDto.password = hashPassword(createUserDto.password);
+
     return this.usersService.create(createUserDto);
   }
 
@@ -56,6 +59,10 @@ export class UsersController {
   ) {
     if (req.user.id !== id) {
       throw new ForbiddenException('You are not allowed to update this user');
+    }
+
+    if (updateUserDto.password) {
+      updateUserDto.password = hashPassword(updateUserDto.password);
     }
 
     return this.usersService.update(id, updateUserDto);

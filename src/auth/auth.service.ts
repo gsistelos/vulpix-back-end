@@ -1,6 +1,7 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { User } from '@prisma/client';
+import { comparePasswords } from 'src/lib/hash';
 import { UsersService } from 'src/users/users.service';
 
 @Injectable()
@@ -13,7 +14,7 @@ export class AuthService {
   async validateUser(email: string, password: string) {
     const user = await this.usersService.findOneByEmail(email);
 
-    if (!user || user.password !== password) {
+    if (!user || !comparePasswords(password, user.password)) {
       throw new UnauthorizedException();
     }
 

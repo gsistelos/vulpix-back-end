@@ -1,0 +1,18 @@
+networks:
+  default:
+    driver: bridge
+
+volumes:
+  postgres-data:
+    driver: local
+
+services:
+  postgres:
+    image: postgres
+    env_file: .env
+    networks:
+      - default
+    ports:
+      - 5432:5432
+    volumes:
+      - postgres-data:/var/lib/postgresql/data

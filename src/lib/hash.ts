@@ -1,7 +1,7 @@
 import { hash } from 'crypto';
 
 export function hashPassword(password: string) {
-  return hash(password, 'sha256');
+  return hash('sha256', password);
 }
 
 export function comparePasswords(password: string, hash: string) {

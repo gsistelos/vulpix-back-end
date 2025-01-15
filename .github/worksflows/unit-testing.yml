@@ -1,0 +1,22 @@
+name: Unit Testing
+
+on:
+  push:
+    branches:
+      - test-workflow
+
+jobs:
+  unit-testing:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install pnpm
+        run: npm install -g pnpm
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Run unit tests
+        run: pnpm test

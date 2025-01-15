@@ -3,20 +3,33 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
 describe('AppController', () => {
-  let appController: AppController;
+  let controller: AppController;
+
+  const mockService = {
+    healthCheck: jest.fn(),
+  };
 
   beforeEach(async () => {
     const app: TestingModule = await Test.createTestingModule({
       controllers: [AppController],
-      providers: [AppService],
+      providers: [
+        {
+          provide: AppService,
+          useValue: mockService,
+        },
+      ],
     }).compile();
 
-    appController = app.get<AppController>(AppController);
+    controller = app.get<AppController>(AppController);
   });
 
-  describe('root', () => {
+  describe('healthCheck', () => {
     it('should return { status: "OK" }', () => {
-      expect(appController.healthCheck()).toEqual({ status: 'OK' });
+      mockService.healthCheck.mockImplementation(() => ({ status: 'OK' }));
+
+      const result = controller.healthCheck();
+
+      expect(result).toEqual({ status: 'OK' });
     });
   });
 });

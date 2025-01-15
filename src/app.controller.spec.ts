@@ -24,12 +24,10 @@ describe('AppController', () => {
   });
 
   describe('healthCheck', () => {
-    it('should return { status: "OK" }', () => {
-      mockService.healthCheck.mockImplementation(() => ({ status: 'OK' }));
+    it('should call service.healthCheck', () => {
+      controller.healthCheck();
 
-      const result = controller.healthCheck();
-
-      expect(result).toEqual({ status: 'OK' });
+      expect(mockService.healthCheck).toHaveBeenCalled();
     });
   });
 });

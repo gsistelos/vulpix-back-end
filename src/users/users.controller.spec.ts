@@ -26,18 +26,16 @@ describe('UsersController', () => {
   });
 
   describe('create', () => {
-    it('should create a user with hashed password', async () => {
+    it('should call service.create with hashed password', async () => {
       const createUserDto: CreateUserDto = {
         username: 'John Doe',
         email: 'john.doe@example.com',
         password: 'password123',
       };
 
-      mockService.create.mockImplementation((dto) => dto);
+      await controller.create({ ...createUserDto });
 
-      const result = await controller.create({ ...createUserDto });
-
-      expect(result).toEqual({
+      expect(mockService.create).toHaveBeenCalledWith({
         ...createUserDto,
         password: hashPassword(createUserDto.password),
       });

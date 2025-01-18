@@ -3,10 +3,18 @@ networks:
     driver: bridge
 
 volumes:
-  postgres-data:
-    driver: local
+  postgres:
 
 services:
+  vulpix-back-end:
+    build: .
+    networks:
+      - default
+    ports:
+      - 3000:3000
+    depends_on:
+      - postgres
+
   postgres:
     image: postgres
     env_file: .env
@@ -15,4 +23,4 @@ services:
     ports:
       - 5432:5432
     volumes:
-      - postgres-data:/var/lib/postgresql/data
+      - postgres:/var/lib/postgresql/data

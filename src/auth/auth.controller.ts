@@ -9,16 +9,20 @@ export class AuthController {
 
   @UseGuards(LocalAuthGuard)
   @Post('login')
-  async login(@Req() req, @Res() res) {
+  async login(@Req() req, @Res({ passthrough: true }) res) {
     const accessToken = await this.authService.login(req.user);
-    res.cookie('accessToken', accessToken, { httpOnly: true });
-    return res.send({ message: 'Logged in' });
+    res.cookie('accessToken', accessToken, {
+      httpOnly: true,
+      secure: true,
+      sameSite: 'lax',
+    });
+    return { message: 'Logged in' };
   }
 
   @UseGuards(JwtAuthGuard)
   @Post('logout')
-  async logout(@Res() res) {
+  async logout(@Res({ passthrough: true }) res) {
     res.clearCookie('accessToken');
-    return res.send({ message: 'Logged out' });
+    return { message: 'Logged out' };
   }
 }

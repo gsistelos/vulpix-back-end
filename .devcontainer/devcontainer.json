@@ -2,8 +2,8 @@
   "name": "vulpix-back-end",
 
   "dockerComposeFile": "docker-compose.yml",
-  "service": "api",
-  "workspaceFolder": "/workspace",
+  "service": "vulpix-back-end",
+  "workspaceFolder": "/workspace/vulpix-back-end",
 
   "customizations": {
     "vscode": {

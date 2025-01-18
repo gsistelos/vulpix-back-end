@@ -6,13 +6,13 @@ volumes:
   postgres:
 
 services:
-  api:
+  vulpix-back-end:
     image: mcr.microsoft.com/vscode/devcontainers/javascript-node
     volumes:
-      - ..:/workspace:cached
-    command: sleep infinity
+      - ..:/workspace/vulpix-back-end:cached
     networks:
       - default
+    command: sleep infinity
     depends_on:
       - postgres
 
@@ -20,6 +20,6 @@ services:
     image: postgres
     volumes:
       - postgres:/var/lib/postgresql/data
-    env_file: ../.env
     networks:
       - default
+    env_file: ../.env

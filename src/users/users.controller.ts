@@ -8,7 +8,7 @@ import {
   Param,
   Patch,
   Post,
-  Request,
+  Req,
   UseGuards,
 } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
@@ -55,7 +55,7 @@ export class UsersController {
   update(
     @Param('id') id: string,
     @Body() updateUserDto: UpdateUserDto,
-    @Request() req,
+    @Req() req,
   ) {
     if (req.user.id !== id) {
       throw new ForbiddenException('You are not allowed to update this user');
@@ -70,7 +70,7 @@ export class UsersController {
 
   @UseGuards(JwtAuthGuard)
   @Delete(':id')
-  remove(@Param('id') id: string, @Request() req) {
+  remove(@Param('id') id: string, @Req() req) {
     if (req.user.id !== id) {
       throw new ForbiddenException('You are not allowed to delete this user');
     }

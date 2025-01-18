@@ -9,7 +9,7 @@ services:
   vulpix-back-end:
     image: mcr.microsoft.com/vscode/devcontainers/javascript-node
     volumes:
-      - ..:/workspace/vulpix-back-end:cached
+      - ..:/workspaces/vulpix-back-end:cached
     networks:
       - default
     command: sleep infinity

@@ -3,7 +3,7 @@
 
   "dockerComposeFile": "docker-compose.yml",
   "service": "vulpix-back-end",
-  "workspaceFolder": "/workspace/vulpix-back-end",
+  "workspaceFolder": "/workspaces/vulpix-back-end",
 
   "customizations": {
     "vscode": {

@@ -1,4 +1,4 @@
-FROM node:alpine AS base
+FROM node:slim AS base
 
 WORKDIR /app
 
@@ -6,6 +6,10 @@ ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 
 RUN corepack enable
+
+RUN apt-get update && apt-get install -y \
+    openssl \
+    && rm -rf /var/lib/apt/lists/*
 
 COPY package.json pnpm-lock.yaml .
 COPY tsconfig.json tsconfig.build.json .

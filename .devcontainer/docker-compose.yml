@@ -3,23 +3,23 @@ networks:
     driver: bridge
 
 volumes:
-  postgres:
+  postgres-data:
 
 services:
   vulpix-back-end:
-    image: mcr.microsoft.com/vscode/devcontainers/javascript-node
+    build: 
+      context: .
+      dockerfile: Dockerfile
     volumes:
       - ..:/workspaces/vulpix-back-end:cached
     networks:
       - default
     command: sleep infinity
-    depends_on:
-      - postgres
 
   postgres:
     image: postgres
     volumes:
-      - postgres:/var/lib/postgresql/data
+      - postgres-data:/var/lib/postgresql/data
     networks:
       - default
     env_file: ../.env

@@ -1,15 +1,14 @@
 {
-  "name": "vulpix-back-end",
+	"name": "vulpix-back-end",
 
-  "dockerComposeFile": "docker-compose.yml",
-  "service": "vulpix-back-end",
-  "workspaceFolder": "/workspaces/vulpix-back-end",
+	"dockerComposeFile": "docker-compose.yml",
+	"service": "vulpix-back-end",
+	"workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
 
   "customizations": {
     "vscode": {
       "extensions": [
         "ms-azuretools.vscode-docker",
-        "dbaeumer.vscode-eslint",
         "esbenp.prettier-vscode",
         "Prisma.prisma"
       ],

@@ -3,24 +3,24 @@ networks:
     driver: bridge
 
 volumes:
-  postgres:
+  postgres-data:
 
 services:
   vulpix-back-end:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
     networks:
       - default
     ports:
       - 3000:3000
-    depends_on:
-      - postgres
 
   postgres:
     image: postgres
-    env_file: .env
     networks:
       - default
     ports:
       - 5432:5432
     volumes:
-      - postgres:/var/lib/postgresql/data
+      - postgres-data:/var/lib/postgresql/data
+    env_file: .env

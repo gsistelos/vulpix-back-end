@@ -18,5 +18,8 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
+      - name: Generate Prisma modules
+        run: pnpx prisma generate
+
       - name: Run unit tests
         run: pnpm test

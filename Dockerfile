@@ -37,4 +37,6 @@ RUN pnpm install --prod
 
 COPY --from=build /app/dist dist
 
+COPY secrets secrets
+
 ENTRYPOINT [ "node", "dist/main.js" ]

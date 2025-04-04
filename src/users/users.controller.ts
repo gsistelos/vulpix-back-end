@@ -4,6 +4,7 @@ import {
   Delete,
   ForbiddenException,
   Get,
+  HttpStatus,
   NotFoundException,
   Param,
   Patch,
@@ -27,11 +28,12 @@ export class UsersController {
   @ApiOperation({ summary: 'Create a new user' })
   @ApiBody({ type: CreateUserDto })
   @ApiResponse({
-    status: 201,
-    description: 'User created successfully',
+    status: HttpStatus.CREATED,
+    description: 'User created',
     type: UserDto,
   })
-  @ApiResponse({ status: 400, description: 'Invalid input data' })
+  @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Invalid input data' })
+  @ApiResponse({ status: HttpStatus.CONFLICT, description: 'Email already in use' })
   create(@Body() createUserDto: CreateUserDto) {
     createUserDto.password = hashPassword(createUserDto.password);
 
@@ -41,11 +43,11 @@ export class UsersController {
   @Get()
   @ApiOperation({ summary: 'Get all users' })
   @ApiResponse({
-    status: 200,
-    description: 'Successfully retrieved users',
+    status: HttpStatus.OK,
+    description: 'Users retrieved',
     type: [UserDto],
   })
-  @ApiResponse({ status: 404, description: 'No users found' })
+  @ApiResponse({ status: HttpStatus.NOT_FOUND, description: 'No users found' })
   async findAll() {
     const users = await this.usersService.findAll();
 
@@ -58,13 +60,13 @@ export class UsersController {
 
   @Get(':id')
   @ApiOperation({ summary: 'Get a user by ID' })
-  @ApiParam({ name: 'id', description: 'ID of the user' })
+  @ApiParam({ name: 'id', description: 'ID of the user to retrieve' })
   @ApiResponse({
-    status: 200,
-    description: 'Successfully retrieved user',
+    status: HttpStatus.OK,
+    description: 'User retrieved',
     type: UserDto,
   })
-  @ApiResponse({ status: 404, description: 'User not found' })
+  @ApiResponse({ status: HttpStatus.NOT_FOUND, description: 'User not found' })
   async findOne(@Param('id') id: string) {
     const user = await this.usersService.findOne(id);
 
@@ -78,18 +80,19 @@ export class UsersController {
   @UseGuards(JwtAuthGuard)
   @Patch(':id')
   @ApiOperation({ summary: 'Update a user by ID' })
-  @ApiParam({ name: 'id', description: 'ID of the user' })
+  @ApiParam({ name: 'id', description: 'ID of the user to update' })
   @ApiBody({ type: UpdateUserDto })
   @ApiResponse({
-    status: 200,
-    description: 'User updated successfully',
+    status: HttpStatus.OK,
+    description: 'User updated',
     type: UserDto,
   })
-  @ApiResponse({ status: 400, description: 'Invalid input data' })
+  @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Invalid input data' })
   @ApiResponse({
-    status: 403,
+    status: HttpStatus.FORBIDDEN,
     description: 'You are not allowed to update this user',
   })
+  @ApiResponse({ status: HttpStatus.CONFLICT, description: 'Email already in use' })
   update(
     @Param('id') id: string,
     @Body() updateUserDto: UpdateUserDto,
@@ -109,14 +112,14 @@ export class UsersController {
   @UseGuards(JwtAuthGuard)
   @Delete(':id')
   @ApiOperation({ summary: 'Delete a user by ID' })
-  @ApiParam({ name: 'id', description: 'ID of the user' })
+  @ApiParam({ name: 'id', description: 'ID of the user to delete' })
   @ApiResponse({
-    status: 200,
-    description: 'User deleted successfully',
+    status: HttpStatus.OK,
+    description: 'User deleted',
     type: UserDto,
   })
   @ApiResponse({
-    status: 403,
+    status: HttpStatus.FORBIDDEN,
     description: 'You are not allowed to delete this user',
   })
   remove(@Param('id') id: string, @Req() req) {

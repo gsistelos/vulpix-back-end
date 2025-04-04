@@ -2,10 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { User as PrismaUser } from '@prisma/client';
 
 export class User implements PrismaUser {
-  @ApiProperty({
-    example: 'cm657lgvn0000s1pudla14h8z',
-    description: 'Unique identifier (CUID)',
-  })
+  @ApiProperty({ description: 'Unique identifier (CUID)' })
   id: string;
 
   @ApiProperty({ example: 'John Doe' })
